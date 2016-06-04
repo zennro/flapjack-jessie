@@ -621,7 +621,7 @@ bd13ce5ccc116fa45b858a6d7c4ee792  opt/flapjack/vendor/bundle/ruby/2.2.0/gems/fla
 a36e441ae333c8fe085d74a847c97330  opt/flapjack/vendor/bundle/ruby/2.2.0/gems/flapjack-2.0.0/lib/flapjack/gateways/web/public/css/nv.d3.css
 19aad2d5f60886047b56cf31a3dada1d  opt/flapjack/vendor/bundle/ruby/2.2.0/gems/flapjack-2.0.0/lib/flapjack/gateways/web/public/js/moment.js
 cb25c5a68256371c2ffc1e239a774483  opt/flapjack/vendor/bundle/ruby/2.2.0/gems/flapjack-2.0.0/lib/flapjack/gateways/web/public/js/nv.d3.js
-ee86d2e92fd8611cdf33fd0e98bb8e71  opt/flapjack/vendor/bundle/ruby/2.2.0/gems/flapjack-2.0.0/lib/flapjack/gateways/web/public/js/self_stats.js
+616408fc8a33cd69a3a177592fd1e6cb  opt/flapjack/vendor/bundle/ruby/2.2.0/gems/flapjack-2.0.0/lib/flapjack/gateways/web/public/js/self_stats.js
 7eda1d6538a495e9a21d5580ccc5ec50  opt/flapjack/vendor/bundle/ruby/2.2.0/gems/flapjack-2.0.0/lib/flapjack/gateways/web/public/js/d3.v3.js
 91515770ce8c55de23b306444d8ea998  opt/flapjack/vendor/bundle/ruby/2.2.0/gems/flapjack-2.0.0/lib/flapjack/gateways/web/public/js/jquery-1.10.2.js
 6bfd171748f088ad503cb07c080b1f33  opt/flapjack/vendor/bundle/ruby/2.2.0/gems/flapjack-2.0.0/lib/flapjack/gateways/web/public/js/bootstrap.js
