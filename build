@@ -1,0 +1,8 @@
+#!/bin/bash
+#vim: ft=bash:
+
+CWD=`pwd`
+cd flapjack-2.0.0
+find . -type f ! -regex '.*.hg.*' ! -regex '.*?debian-binary.*' ! -regex '.*?DEBIAN.*' ! -regex '._.DS_Store' ! -regex '.DS_Store' -printf '%P ' | xargs md5sum > DEBIAN/md5sums
+cd $CWD
+dpkg-deb -b flapjack-2.0.0 flapjack_2.0.0_all.deb
