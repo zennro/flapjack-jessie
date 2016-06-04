@@ -1,0 +1,23 @@
+Hi <%= @alert.contact_name %>
+
+<% rollup_alerts_count = @alert.rollup_alerts.length %>
+
+You have <%= rollup_alerts_count %> alerting check<%= rollup_alerts_count == 1 ? '' : 's' %> as follows:
+
+<%  @alert.rollup_alerts.all.sort_by(&:duration).each do |rollup_alert|
+      check    = rollup_alert.check
+      state    = rollup_alert.state
+      duration = (ChronicDuration.output(rollup_alert.duration, :keep_zero => true) || '0 secs') -%>
+  * <%= check.name %> is <%= ['ok'].include?(state) ? state.upcase : state.titleize %> (<%= duration %>)
+<% end -%>
+
+<% rollup_threshold = @alert.medium.rollup_threshold -%>
+<% if 'recovery'.eql?(@alert.rollup) -%>
+As your email summary threshold is <%= rollup_threshold %>, we're taking your email alerts out of summary mode now. You'll now be emailed individually for each alerting check.
+<% else -%>
+Your email alerts are being summarised as your email summary threshold is set to <%= rollup_threshold %>. You'll receive summary emails like this one until your number of alerting checks falls below <%= rollup_threshold %>.
+<% end -%>
+
+Cheers,
+Flapjack
+
