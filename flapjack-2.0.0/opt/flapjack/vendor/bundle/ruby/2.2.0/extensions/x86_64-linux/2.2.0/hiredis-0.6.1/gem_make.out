@@ -1,0 +1,21 @@
+/usr/bin/ruby2.2 -r ./siteconf20160604-11630-6wxsqf.rb extconf.rb
+checking for sys/socket.h... yes
+cc -std=c99 -pedantic -c -O3 -fPIC  -Wall -W -Wstrict-prototypes -Wwrite-strings -g -ggdb  net.c
+cc -std=c99 -pedantic -c -O3 -fPIC  -Wall -W -Wstrict-prototypes -Wwrite-strings -g -ggdb  hiredis.c
+cc -std=c99 -pedantic -c -O3 -fPIC  -Wall -W -Wstrict-prototypes -Wwrite-strings -g -ggdb  sds.c
+cc -std=c99 -pedantic -c -O3 -fPIC  -Wall -W -Wstrict-prototypes -Wwrite-strings -g -ggdb  async.c
+cc -std=c99 -pedantic -c -O3 -fPIC  -Wall -W -Wstrict-prototypes -Wwrite-strings -g -ggdb  read.c
+ar rcs libhiredis.a net.o hiredis.o sds.o async.o read.o
+checking for rb_thread_fd_select()... yes
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling hiredis_ext.c
+compiling reader.c
+compiling connection.c
+linking shared-object hiredis/ext/hiredis_ext.so
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 hiredis_ext.so ./.gem.20160604-11630-1ntkd42/hiredis/ext

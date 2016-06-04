@@ -1,0 +1,52 @@
+<style type="text/css" media="screen">
+  #container {
+    text-transform: uppercase;
+  }
+  table {
+    border-collapse: collapse;
+  }
+  table, th, td {
+    border: 1px solid #666;
+    padding: 4px;
+  }
+</style>
+
+<p>Hi <%= @alert.contact_name %></p>
+
+<% rollup_alerts_count = @alert.rollup_alerts.length -%>
+<p>You have <%= rollup_alerts_count %> alerting check<%= (rollup_alerts_count == 1) ? '' : 's' %> as follows:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <th>Check</th>
+      <th>State</th>
+      <th>Duration</th>
+      <th>Summary</th>
+    </tr>
+
+<%  @alert.rollup_alerts.all.sort_by(&:duration).each do |rollup_alert|
+      check    = rollup_alert.check
+      state    = rollup_alert.state
+      duration = (ChronicDuration.output(rollup_alert.duration, :keep_zero => true) || '0 secs') -%>
+      summary  = rollup_alert.summary
+      <tr>
+        <td><%= check.name %></td>
+        <td><%= ['ok'].include?(state) ? state.upcase : state.titleize %></td>
+        <td><%= duration %></td>
+        <td><%= summary %></td>
+      </tr>
+<%    end %>
+  </tbody>
+</table>
+
+<% rollup_threshold = @alert.medium.rollup_threshold -%>
+<% if 'recovery'.eql?(@alert.rollup) %>
+  <p>As your email summary threshold is <%= rollup_threshold %>, we're taking your email alerts out of summary mode now. You'll now be emailed individually for each alerting check.</p>
+<% else %>
+  <p>Your email alerts are being summarised as your email summary threshold is set to <%= rollup_threshold %>. You'll receive summary emails like this one until your number of alerting checks falls below <%= rollup_threshold %>.</p>
+<% end %>
+
+<p>Cheers,<br/>
+Flapjack</p>
+

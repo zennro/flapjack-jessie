@@ -1,0 +1,512 @@
+<% unless @error.nil? %>
+<div class="alert alert-danger" role="alert">
+  <%= h @error %>
+</div>
+<% end %>
+
+<% page_title "#{h(@check[:name])}" %>
+<div class="page-header">
+  <h2><%= h @check[:name] %></h2>
+</div>
+
+<div class="row">
+  <div id="state" class="col-md-6">
+    <%
+      state_qualifier = @check[:enabled] ? '' : "DISABLED. Last "
+      state_class     = case @check[:condition]
+                        when 'ok'
+                          'success'
+                        when 'warning'
+                          'warning'
+                        when 'critical'
+                          'danger'
+                        else
+                          "info #{@check[:condition]}"
+                        end
+    %>
+
+    <div class="alert alert-<%= state_class %>">
+      <%= state_qualifier %>State:
+      <span class="alert-link"><%= @check[:condition] ? h(@check[:condition].upcase) : '' %></span>
+    </div>
+  </div><!-- col-md-6 -->
+
+  <div class="col-md-6">
+   <%
+    current_scheduled_maintenance = @state.nil? ? nil : @state[:current_scheduled_maintenance]
+    current_unscheduled_maintenance = @state.nil? ? nil : @state[:current_unscheduled_maintenance]
+    latest_notifications = @state.nil? ? nil : @state[:latest_notifications]
+
+    if current_scheduled_maintenance.nil? &&
+       current_unscheduled_maintenance.nil? &&
+       !@check[:failing]
+    %>
+    <div id="no-maintenance-summary" class="alert alert-info">
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-md-2 control-label">State</label>
+          <div class="col-md-10">
+            <p class="form-control-static">
+              Not in scheduled or unscheduled maintenance.
+            </p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-10">
+            <p class="form-control-static">
+              <a class='btn btn-primary' href="#scheduled_maintenance_periods">Schedule Maintenance</a>
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  <% end %>
+
+  <% if current_unscheduled_maintenance %>
+    <div id="unscheduled-maintenance-summary" class="alert alert-warning">
+
+      <form action="<%= @base_url %>unscheduled_maintenances/<%= u(current_unscheduled_maintenance[:id]) %>" method="post" class="form-horizontal" role="form">
+        <input type="hidden" name="_method" value="patch">
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">State</label>
+          <div class="col-md-9">
+            <p class="form-control-static">
+              Acknowledged
+            </p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Reason</label>
+          <div class="col-md-9">
+            <p class="form-control-static">
+              <%
+                ack_msg = current_unscheduled_maintenance[:summary]
+                ack_msg ||= 'No summary given'
+              %>
+              <%= h(ack_msg) %>
+            </p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Started</label>
+          <div class="col-md-9">
+            <p class="form-control-static">
+              <% start = current_unscheduled_maintenance[:start_time] %>
+              <%= h(start) %>
+            </p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Finishing</label>
+          <div class="col-md-9">
+            <p class="form-control-static">
+              <% current_unscheduled_maintenance[:end_time] %>
+              <%= h(current_unscheduled_maintenance[:end_time]) %>
+            </p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Remaining</label>
+          <div class="col-md-9">
+            <p class="form-control-static">
+              <%
+                remaining = begin
+                  finish = DateTime.parse(current_unscheduled_maintenance[:end_time])
+                  time_period_in_words(finish.to_i - @current_time.to_i)
+                rescue ArgumentError
+                  nil
+                end
+              %>
+              <%= remaining.nil? ? "???" : h(remaining) %>
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-offset-3 col-md-9">
+            <p class="form-control-static">
+              <button id="end-unscheduled-maintenance" type="submit" class="btn btn-danger">End Unscheduled Maintenance</button>
+            </p>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  <% end %>
+
+  <% if (@check[:failing] and current_scheduled_maintenance.nil?) %>
+    <div id="add-unscheduled-maintenance" class="alert alert-warning">
+      <% action = current_unscheduled_maintenance.nil? ? "Acknowledge" : "Re-acknowledge" %>
+      <h4><%= action %> alert</h4>
+      <form action="<%= @base_url %>acknowledgements" method="post" class="form-horizontal">
+        <input type="hidden" name="check_id" value="<%= u(@check[:id]) %>">
+        <div class="form-group">
+          <div class="col-sm-12 text-left">
+            <label class="col-sm-3 control-label" for="summary">Summary</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="summary" value=""/>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <label class="col-sm-3 control-label" for="duration">Duration</label>
+            <div class="col-sm-9">
+              <input class="col-sm-9 form-control" type="text" name="duration" value="2 hours"/>
+              <span class="help-block">
+                e.g. "5 hours"
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <div class="col-sm-offset-3 col-sm-9">
+              <button type="submit" class="btn btn-warning">
+                <%= current_unscheduled_maintenance.nil? ? 'Acknowledge' : 'Replace acknowledgment' %>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  <% end %>
+
+  <% unless current_scheduled_maintenance.nil? %>
+    <div id="scheduled-maintenance-summary" class="alert alert-warning">
+      <div class="row">
+        <div class="col-md-3 text-right">State</div>
+        <div class="col-md-9">
+          <a href="#scheduled_maintenance_periods" class="alert-link">In Scheduled Maintenance</a>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 text-right">Reason</div>
+        <div class="col-md-9">
+          <%
+            maint_msg = "#{current_scheduled_maintenance[:summary]}"
+            maint_msg = maint_msg.length > 0 ? maint_msg : 'No summary given'
+          %>
+          <%= h maint_msg %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 text-right">Started</div>
+        <div class="col-md-9">
+          <% start = current_scheduled_maintenance[:start_time] %>
+          <%= h(start) %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 text-right">Finishing</div>
+        <div class="col-md-9">
+          <% finish = current_scheduled_maintenance[:end_time] %>
+          <%= h(finish) %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 text-right">Remaining</div>
+        <div class="col-md-9">
+          <%
+            remaining = begin
+              finish = DateTime.parse(current_scheduled_maintenance[:end_time])
+              time_period_in_words(finish.to_i - @current_time.to_i)
+            rescue ArgumentError
+              nil
+            end
+          %>
+          <%= remaining.nil? ? "???" : h(remaining) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  </div><!-- col-md-6 -->
+</div><!-- row -->
+
+<div class="row">
+  <div id="output" class="col-md-6">
+    <% if @state.nil? %>
+      <p>No events received for this check.</p>
+    <% else %>
+      <h3>Output</h3>
+      <p><%= h @state[:details] %></p>
+      <% if @state[:perfdata] && @state[:perfdata].is_a?(Array) %>
+      <h3>Performance Data:</h3>
+      <table>
+        <% @state[:perfdata].each do |perfdata| %>
+        <tr>
+          <td><%= perfdata["key"] %></td>
+          <td><%= perfdata["value"] %></td>
+        </tr>
+        <% end %>
+      </table>
+      <% end %>
+      <table class="table table-hover table-condensed">
+        <tr>
+          <td>Last state change:</td>
+          <% if @state[:last_changed].nil? %>
+            <td>-</td>
+            <td>-</td>
+          <% else %>
+            <td><%= h relative_time_ago(@state[:last_changed], @current_time) %> ago</td>
+            <td><%= h @state[:last_changed].to_s %></td>
+          <% end %>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Last update:</td>
+          <% if @state[:last_updated].nil? %>
+            <td>-</td>
+            <td>-</td>
+          <% else %>
+            <td><%= h relative_time_ago(@state[:last_updated], @current_time) %> ago</td>
+            <td><%= h @state[:last_updated].to_s %></td>
+          <% end %>
+          <td>&nbsp;</td>
+        </tr>
+        <% [:critical, :warning, :unknown, :ok, :acknowledgement].each do |type| %>
+          <tr>
+            <td>Last <%= h type.to_s %> notification:</td>
+            <% notif = latest_notifications.detect {|ln| ln[:condition].eql?(type.to_s) || ln[:action].eql?(type.to_s) } %>
+            <% if notif.nil? %>
+              <td>never</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            <% else %>
+              <%
+                notif_relative = begin
+                  notif_created = DateTime.parse(notif[:created_at])
+                  relative_time_ago(@current_time, notif_created) + " ago"
+                rescue ArgumentError
+                  nil
+                end
+              %>
+              <td><%= h(notif_relative) %></td>
+              <td><%= h(notif[:created_at]) %></td>
+              <td><%= h(notif[:summary]) %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+  </div><!-- col-md-6 -->
+
+  <div id="recent-state-changes" class="col-md-6">
+    <h3>Recent state changes</h3>
+    <% if @state_changes && !@state_changes.empty? %>
+    <table class="table table-hover table-condensed">
+      <tr>
+        <th>Timestamp</th>
+        <th>State</th>
+        <th>Summary</th>
+      </tr>
+      <% @state_changes.each do |state_change| %>
+      <tr>
+        <td><%= h state_change[:created_at] %></td>
+        <td><%= h state_change[:condition] %></td>
+        <td><%= h state_change[:summary] %></td>
+      </tr>
+      <% end %>
+    </table>
+    <% else %>
+    <p>No state changes recorded for this check.</p>
+    <% end %>
+  </div><!-- col-md-6 -->
+</div><!-- row -->
+
+<div class="row">
+  <div id="scheduled-maintenance-periods" class="col-md-12">
+    <a name="scheduled_maintenance_periods"></a>
+    <h3>Scheduled Maintenance Periods</h3>
+    <% unless @scheduled_maintenances.empty? %>
+    <table class="table table-bordered table-hover table-condensed">
+      <tr>
+        <th>Start</th>
+        <th>End</th>
+        <th>Duration</th>
+        <th>Summary</th>
+        <th>Actions</th>
+      </tr>
+
+    <% @scheduled_maintenances.each do |scheduled_maintenance| %>
+      <%
+        start_time = begin
+          DateTime.parse(scheduled_maintenance[:start_time])
+        rescue ArgumentError
+          nil
+        end
+        end_time = begin
+          DateTime.parse(scheduled_maintenance[:end_time])
+        rescue ArgumentError
+          nil
+        end
+        duration = (start_time.nil? || end_time.nil?) ? nil : (end_time.to_i - start_time.to_i)
+        summary = scheduled_maintenance[:summary]
+      %>
+      <tr>
+        <td><%= h start_time.to_s %></td>
+        <td><%= h end_time.to_s %></td>
+        <td><%= h(ChronicDuration.output(duration.to_i.round, :keep_zero => true) || '0 secs') %></td>
+        <td><%= h summary %></td>
+        <td>
+        <% if end_time > @current_time %>
+          <% if start_time > @current_time %>
+            <form action="<%= @base_url %>scheduled_maintenances/<%= u(scheduled_maintenance[:id]) %>" method="post">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          <% else %>
+            <form action="<%= @base_url %>scheduled_maintenances/<%= u(scheduled_maintenance[:id]) %>" method="post">
+              <input type="hidden" name="_method" value="patch">
+              <input type="hidden" name="end_time" value="<% h end_time.iso8601 %>">
+              <button type="submit" class="btn btn-danger">End Now</button>
+            </form>
+          <% end %>
+        <% else %>
+          &nbsp;
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  </div><!-- col-md-12 -->
+<% else %>
+  <p>No maintenance is scheduled</p>
+<% end %>
+</div><!-- row -->
+
+<div class="row">
+  <div class="col-md-8">
+
+    <div id="add-scheduled-maintenance" class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Add Scheduled Maintenance</h4>
+      </div>
+      <div class="panel-body">
+        <form action="<%= @base_url %>scheduled_maintenances" method="post" role="form" class="form-horizontal">
+        <input type="hidden" name="check_id" value="<%= u(@check[:id]) %>">
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="start_time">Start time:</label>
+            <div class="col-sm-9">
+              <input type="text" name="start_time" class="form-control" size="20" maxlength="80" value="">
+              <span class="help-block">
+                e.g. "today 4pm", "two hours hence", "friday 2pm", "2012-01-28 13:00"
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="duration">Duration:</label>
+            <div class="col-sm-9">
+              <input type="text" name="duration" class="form-control" size="20" maxlength="80" value="">
+              <span class="help-block">
+                e.g. "1 hour", "2:30:00", "three days", etc
+              </span>
+            </div>
+          </div>
+
+          <div class="col-sm-9 col-md-offset-2">
+            <div class="alert alert-info">
+              Times given will be interpreted in the local timezone of
+              <span class="alert-link"><%= h(local_timezone) %></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="summary">Summary:</label>
+            <div class="col-sm-9">
+              <input type="text" name="summary" class="form-control" size="80" maxlength="160" value="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-9">
+              <button type="submit" class="btn btn-success">Save</button>
+            </div>
+          </div>
+        </form><!-- form-horizontal-->
+
+      </div><!-- panel-body -->
+    </div><!-- panel panel-default -->
+  </div><!-- col-md-8 -->
+</div><!-- row -->
+
+
+<div class="row">
+  <div id="contacts" class="col-md-8">
+    <h3>Contacts</h3>
+    <% if @contacts.nil? || @contacts.empty? %>
+      <p>There are <strong>no contacts</strong> associated with this check.</p>
+    <% else %>
+      <table class="table table-bordered table-hover table-condensed">
+        <tr>
+          <th>Name</th>
+          <th>Media</th>
+        </tr>
+        <% @contacts.each do |contact| %>
+          <tr>
+            <td><a href="<%= @base_url %>contacts/<%= u(contact[:id]) %>" title="contact details"><%= h contact[:name] %></a></td>
+            <td>
+              <% contact_media = @media_by_contact_id[contact[:id]] %>
+              <% if contact_media.nil? || contact_media.empty? %>
+                <p>No media</p>
+              <% else %>
+                <p><%= h contact_media.map {|m| m[:transport] }.collect(&:capitalize).join(", ") %></p>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+  </div><!-- col-md-8 -->
+</div><!-- row -->
+
+<div id="zone-of-surprise" class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-warning"></i>
+          Zone of Surprise
+        </h3>
+      </div>
+      <div class="panel-body">
+      <% if @check[:enabled] %>
+        <h4>Decommission check</h4>
+        <form action="<%= @base_url %>checks/<%= u(@check[:id]) %>" method="post" style="display:inline-block" class="pull-right">
+          <input type='hidden' name='_method' value='delete'>
+          <button type='submit' class="btn btn-danger decommission-check">Decommission Check</button>
+        </form>
+        <p>
+          Hide the check from the Flapjack web interface.
+          Use this if you are no longer actively running this check.
+        </p>
+        <p>
+          Flapjack will automatically re-commission this check if it receives another event for it.
+        </p>
+      <% else %>
+        <p>
+          This check has been decommissioned.
+        </p>
+        <p>
+          Flapjack will re-commission this check if it receives another event for it.
+        </p>
+      <% end %>
+      </div><!-- panel-body -->
+    </div><!-- panel-danger -->
+  </div><!-- col-md-8 col-md-offset-2 -->
+</div><!-- row -->

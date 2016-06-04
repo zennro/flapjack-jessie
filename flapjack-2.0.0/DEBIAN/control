@@ -1,0 +1,6 @@
+Package: flapjack
+Version: 2.0.0
+Architecture: amd64
+Depends: debhelper (>= 9.0.0~), config-package-dev (>= 5.1)
+Maintainer: Ionut Andriescu <zen@unknown>
+Description: Monitoring notification routing + event processing system.
