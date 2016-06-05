@@ -15,6 +15,7 @@ fi
 export GOPATH
 GOPATH=$(pwd)
 ./build.sh
+rm -rf src/*
 
 cd "$CWD" || exit
 cd flapjack || exit
