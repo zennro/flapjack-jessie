@@ -5,6 +5,8 @@ set -e
 if [ "$1" = "remove" ] ; then
 	userdel flapjack
 	update-rc.d flapjack remove >/dev/null
+	rm -f /etc/redis/redis.conf
+	dpkg-divert --rename --remove /etc/redis/redis.conf
 fi
 
 

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+dpkg-divert --add --rename --divert /etc/redis/redis.conf.disabled /etc/redis/redis.conf

@@ -3418,7 +3418,7 @@ cb51ee5a9a8d9d05741482a163b5d44b  opt/flapjack/bin/puma
 6ee5fab24a35e4043e9e94a401038a46  opt/flapjack/Gemfile.lock
 63b7e312be74216fba3044f1eb8ee7bb  usr/local/lib/flapjackfeeder3.so
 141c60520bbb2f26f0739e83c92471b8  usr/local/lib/flapjackfeeder4.so
-86585a97c2c82d75005f54e9c70e8e48  etc/redis/redis.conf.flapjack
+af34d0a12333465e4bba755c5a0337c5  etc/redis/redis.conf
 18a3c97ecf022c805965cdb576a71366  etc/flapjack/flapjack_config.toml
 0627f66bc38e155c74286a8e8b594066  etc/init.d/flapjack
 23388038c774c7e4571a221a876d0108  etc/init.d/flapper
