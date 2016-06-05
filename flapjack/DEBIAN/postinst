@@ -66,7 +66,7 @@ then
 		cat > /etc/profile.d/flapjack.sh <<'EOF'
 		PATH=$PATH:/opt/flapjack/bin
 		GEM_PATH=/opt/flapjack/vendor/bundle/ruby/*/
-		EOF
+EOF
 		chmod 644 /etc/profile.d/flapjack.sh
 	fi
 

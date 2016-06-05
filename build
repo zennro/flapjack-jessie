@@ -1,13 +1,28 @@
 #!/bin/bash
-#vim: ft=bash:
+#vim: ft=bash:et:ts=4:sw=4:sts=4:
+
+INIT=0
 
 CWD=`pwd`
-cd flapjack-2.0.0/opt/flapjack/vendor/bundle/ruby/*/gems/flapjack-2.0.0
+cd flapjack/opt/flapjack
+
+if [ "$INIT" = true ]; then
+	rm -rf *
+	bundle install --without development --path vendor/bundle --deployment --binstubs bin
+fi
+
+cd $CWD ; cd flapjack/opt/flapjack/vendor/bundle/ruby/*/gems/flapjack-[0-9]*
 export GOPATH=`pwd`
 ./build.sh
-cd $CWD
-cd flapjack-2.0.0
+
+if [ "$INIT" = true ] ; then
+	rm -rf src
+fi
+
+cd $CWD ; cd flapjack
+#find . -type d -name '*.git'|xargs rm -rf
 find . -type f ! -regex '.*.git.*' ! -regex '.*?debian-binary.*' ! -regex '.*?DEBIAN.*' ! -regex '._.DS_Store' ! -regex '.DS_Store' -printf '%P ' | xargs md5sum > DEBIAN/md5sums
+
 cd $CWD
-chmod 0755 flapjack-2.0.0/DEBIAN/{*rm,*inst}
-fakeroot dpkg-deb -b flapjack-2.0.0 flapjack_2.0.0_all.deb
+chmod 0755 flapjack/DEBIAN/{*rm,*inst}
+fakeroot dpkg-deb -b flapjack flapjack_2.0.0_all.deb
