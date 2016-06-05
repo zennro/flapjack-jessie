@@ -1,28 +1,28 @@
 #!/bin/bash
-#vim: ft=bash:et:ts=4:sw=4:sts=4:
+# vim: ft=sh:et:ts=4:sw=4:sts=4:
 
-INIT=0
+CWD=$(pwd)
 
-CWD=`pwd`
-cd flapjack/opt/flapjack
+cd flapjack/opt/flapjack || exit 
+bundle install --without development --path vendor/bundle --binstubs bin || exit
 
-if [ "$INIT" = true ]; then
-	rm -rf *
-	bundle install --without development --path vendor/bundle --deployment --binstubs bin
+cd "$CWD" || exit
+cd flapjack/opt/flapjack/vendor/bundle/ruby/*/gems/flapjack-[0-9]* || exit
+if [ ! -d "src" ]; then
+    git pull
 fi
 
-cd $CWD ; cd flapjack/opt/flapjack/vendor/bundle/ruby/*/gems/flapjack-[0-9]*
-export GOPATH=`pwd`
+export GOPATH
+GOPATH=$(pwd)
 ./build.sh
 
-if [ "$INIT" = true ] ; then
-	rm -rf src
-fi
-
-cd $CWD ; cd flapjack
+cd "$CWD" || exit
+cd flapjack || exit
 #find . -type d -name '*.git'|xargs rm -rf
 find . -type f ! -regex '.*.git.*' ! -regex '.*?debian-binary.*' ! -regex '.*?DEBIAN.*' ! -regex '._.DS_Store' ! -regex '.DS_Store' -printf '%P ' | xargs md5sum > DEBIAN/md5sums
 
-cd $CWD
+cd "$CWD" || exit
 chmod 0755 flapjack/DEBIAN/{*rm,*inst}
 fakeroot dpkg-deb -b flapjack flapjack_2.0.0_all.deb
+rm -rf flapjack/opt/flapjack/{vendor,.bundle,bin}
+cd "$CWD" || exit
