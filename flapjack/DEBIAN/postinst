@@ -41,7 +41,7 @@ then
 	#   fi
 	# done
 
-	if [ ! -e /usr/local/lib/flapjackfeeder.o ] ; then
+	if [ ! -f /usr/local/lib/flapjackfeeder.o ] ; then
 		echo "Symlinking the Nagios version 3 flapjackfeeder to /usr/local/lib/flapjackfeeder.o for backwards compatibility"
 		ln -s /usr/local/lib/flapjackfeeder3.o /usr/local/lib/flapjackfeeder.o
 	fi
