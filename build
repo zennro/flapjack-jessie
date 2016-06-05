@@ -7,7 +7,7 @@ export GOPATH=`pwd`
 ./build.sh
 cd $CWD
 cd flapjack-2.0.0
-find . -type f ! -regex '.*.hg.*' ! -regex '.*?debian-binary.*' ! -regex '.*?DEBIAN.*' ! -regex '._.DS_Store' ! -regex '.DS_Store' -printf '%P ' | xargs md5sum > DEBIAN/md5sums
+find . -type f ! -regex '.*.git.*' ! -regex '.*?debian-binary.*' ! -regex '.*?DEBIAN.*' ! -regex '._.DS_Store' ! -regex '.DS_Store' -printf '%P ' | xargs md5sum > DEBIAN/md5sums
 cd $CWD
 chmod 0755 flapjack-2.0.0/DEBIAN/{*rm,*inst}
 fakeroot dpkg-deb -b flapjack-2.0.0 flapjack_2.0.0_all.deb
