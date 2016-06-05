@@ -1,5 +1,10 @@
-# Automatically added by dh_installinit
+#!/bin/sh
+
 if [ -x "/etc/init.d/flapjack" ] || [ -e "/etc/init/flapjack.conf" ]; then
 	invoke-rc.d flapjack stop || exit $?
+        unlink /usr/local/lib/flapjackfeeder.o
+fi
+if [ -e "/opt/flapjack" ]; then
+        rm -rf /opt/flapjack
 fi
 # End automatically added section

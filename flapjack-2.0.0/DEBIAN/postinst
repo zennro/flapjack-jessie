@@ -11,8 +11,13 @@ GEM_DIR=$DEST_DIR//vendor/bundle/ruby/*/
 PROGNAME=$(basename $0)
 INITDDIR="/etc/init.d"
 
+if [ "$1" = "configure" ]
+then
+if ! getent passwd flapjack > /dev/null
+then
 groupadd flapjack
 useradd --system --gid flapjack --no-create-home flapjack
+fi
 
 function error_exit
 {
@@ -56,7 +61,7 @@ if [ ! -e ${INITDDIR}/flapper ] ; then
   chmod u+x ${INITDDIR}/flapper
 fi
 
-echo "Setting paths"
+# echo "Setting paths"
 if [ ! -e /etc/profile.d/flapjack.sh ] ; then
   cat > /etc/profile.d/flapjack.sh <<'EOF'
 PATH=$PATH:/opt/flapjack/bin
@@ -68,10 +73,14 @@ fi
 
 update-rc.d redis-server defaults 94 06 >/dev/null || exit $?
 update-rc.d flapjack defaults 95 05 >/dev/null || exit $?
-echo "Starting redis"
-${INITDDIR}/redis-server start || exit $?
+# echo "Starting redis"
+if pidof redis-server >/dev/null; then
+        ${INITDDIR}/redis-server restart >/dev/null || exit $?
+else
+        ${INITDDIR}/redis-server start >/dev/null || exit $?
+fi
 
-echo "Starting flapjack"
+# echo "Starting flapjack"
 ${INITDDIR}/flapjack start || exit $?
 
 echo "Thank you for installing flapjack!"
@@ -81,5 +90,5 @@ echo "  export PATH=$PATH:/opt/flapjack/bin"
 echo
 
 echo "Flapjack should now be running. Visit http://localhost:3080/"
-
+fi
 exit 0
