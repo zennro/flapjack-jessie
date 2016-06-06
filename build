@@ -7,12 +7,12 @@ rm -rf flapjack/opt/flapjack/{vendor,.bundle,bin} || true
 
 cd flapjack/opt/flapjack || exit 
 bundle install --without development --path vendor/bundle --binstubs bin || exit
+VER=$(basename $(ls -d vendor/bundle/ruby/*/gems/flapjack-[0-9]*)|cut -f2 -d-)
 
 cd "$CWD" || exit
 cd flapjack/opt/flapjack/vendor/bundle/ruby/*/gems/flapjack-[0-9]* || exit
-if [ ! -d "src" ]; then
-    git pull
-fi
+
+sed -i 's/json.event_queue_length/json.data.attributes.event_queue_length/' lib/flapjack/gateways/web/public/js/self_stats.js
 
 export GOPATH
 GOPATH=$(pwd)
@@ -21,11 +21,10 @@ rm -rf src/*
 
 cd "$CWD" || exit
 cd flapjack || exit
-#find . -type d -name '*.git'|xargs rm -rf
 find . -type f ! -regex '.*.git.*' ! -regex '.*?debian-binary.*' ! -regex '.*?DEBIAN.*' ! -regex '._.DS_Store' ! -regex '.DS_Store' -printf '%P ' | xargs md5sum > DEBIAN/md5sums
 
 cd "$CWD" || exit
 chmod 0755 flapjack/DEBIAN/{*rm,*inst}
-fakeroot dpkg-deb -b flapjack flapjack_2.0.0_all.deb
+fakeroot dpkg-deb -b flapjack flapjack_${VER}_all.deb
 rm -rf flapjack/opt/flapjack/{vendor,.bundle,bin}
 cd "$CWD" || exit
