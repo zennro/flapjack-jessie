@@ -7,6 +7,7 @@ if [ "$1" = "remove" ] ; then
 	update-rc.d flapjack remove >/dev/null
 	rm -f /etc/redis/redis.conf
 	dpkg-divert --rename --remove /etc/redis/redis.conf
+	invoke-rc.d redis-server restart
 fi
 
 

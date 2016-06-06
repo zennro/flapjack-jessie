@@ -11,11 +11,11 @@ dd52bbe9752a53fc6333a50b4f2caa94  opt/flapjack/vendor/bundle/ruby/2.1.0/extensio
 d41d8cd98f00b204e9800998ecf8427e  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/puma-3.4.0/gem.build_complete
 8e7482efe8f11d6ac460b37d98489c5c  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/puma-3.4.0/puma/puma_http11.so
 00a1ec23ee57bd454a9ae7a560eb3098  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/puma-3.4.0/mkmf.log
-ced211a411ab6ab275b87e3ff6aa6303  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/puma-3.4.0/gem_make.out
+b900e00b8e1e9e323176516adbfe7bfe  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/puma-3.4.0/gem_make.out
 d41d8cd98f00b204e9800998ecf8427e  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/hiredis-0.6.1/gem.build_complete
 923c6bb9d0cc86804e088f261d6f0d75  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/hiredis-0.6.1/mkmf.log
 2313b2379045c3be9a0fe3cd281d407b  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/hiredis-0.6.1/hiredis/ext/hiredis_ext.so
-0f3907978efa8ab93f9d9751a0f5acd1  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/hiredis-0.6.1/gem_make.out
+2f9948658bfe93154ec886fe65ff2448  opt/flapjack/vendor/bundle/ruby/2.1.0/extensions/x86_64-linux/2.1.0/hiredis-0.6.1/gem_make.out
 68b329da9893e34099c7d8ad5cb9c940  opt/flapjack/vendor/bundle/ruby/2.1.0/build_info/gli-2.13.1.info
 68b329da9893e34099c7d8ad5cb9c940  opt/flapjack/vendor/bundle/ruby/2.1.0/build_info/tzinfo-data-1.2016.4.info
 68b329da9893e34099c7d8ad5cb9c940  opt/flapjack/vendor/bundle/ruby/2.1.0/build_info/puma-3.4.0.info
@@ -1110,7 +1110,7 @@ b01d3e3e5ba95019d8af3653aed62030  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/jso
 cb323aab5dc9f049dc38c24dcb9311cd  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/generator/generator.h
 d41d8cd98f00b204e9800998ecf8427e  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/generator/.RUBYARCHDIR.-.json.-.ext.time
 3ab971aef4a0ba9fc9ea684fe6f96d7f  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/generator/generator.o
-25b62ac66a60eb8f317cf3d1e76d6c54  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/generator/Makefile
+b2b0c7290317b6e63eaaa4546f0f82e6  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/generator/Makefile
 1625ac4388df43f7c51c68a93a53dcfe  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/parser/depend
 6703d6bab1f1b3fc7f0e811973b2692f  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/parser/parser.o
 2deb9aa3dbfe26fd03592ac2b11b6c69  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/parser/parser.so
@@ -1119,8 +1119,8 @@ a24b286af6eea2763702ceb24433131b  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/jso
 4c990bd5f2024e6c601378dfff2a001a  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/parser/parser.rl
 be5158f89056cf534adc68e377de97c8  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/parser/parser.c
 d41d8cd98f00b204e9800998ecf8427e  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/parser/.RUBYARCHDIR.-.json.-.ext.time
-c8901c8fd8225f42572188b7676fd71a  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/parser/Makefile
-63bb2ac1bb4b0f88d24f38758b5ed5f2  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/Makefile
+ade3697477ab9abb4d86d35e318c9465  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/ext/parser/Makefile
+c73f511e75761c9dcf8ce17aca32d5f2  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/ext/json/Makefile
 d41d8cd98f00b204e9800998ecf8427e  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/diagrams/.keep
 b4e037cd48e96cb7de3cc25180626326  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/tools/fuzz.rb
 ec53078fc28f6751db3e7f5fda9c1bf6  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/json-1.8.3/tools/server.rb
@@ -2407,7 +2407,7 @@ dff2231d7a9cbc433286e6f093e0a875  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/pum
 22eaeff81f26712d1effc0ec087fedda  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/puma-3.4.0/ext/puma_http11/org/jruby/puma/Http11Parser.java
 913c484623174abe07d433f438fd4e09  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/puma-3.4.0/ext/puma_http11/org/jruby/puma/Http11.java
 c42c8a242966c76a9582060d9fd40f0d  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/puma-3.4.0/ext/puma_http11/io_buffer.o
-fc3499e1c7bf57d9358b8ebcf7dcb343  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/puma-3.4.0/ext/puma_http11/Makefile
+0092a3d6fa757cf950a4cf603e53010e  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/puma-3.4.0/ext/puma_http11/Makefile
 4f0d55084c305b54aae8137eae6c9183  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/puma-3.4.0/ext/puma_http11/http11_parser.o
 b7b664b787ebd987582f149456cb2067  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/puma-3.4.0/tools/jungle/upstart/puma.conf
 3b06be29f3a8bd3377436ed1dd48b3db  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/puma-3.4.0/tools/jungle/upstart/README.md
@@ -2585,7 +2585,7 @@ d84d659a35c666d23233e54503aaea51  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hir
 4646985b83ef22279af80df704e40264  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/vendor/hiredis/Makefile
 e57c27ebe1916bb151a9b4d73c22bc27  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/vendor/hiredis/test.c
 c6ef6a254c6c0e2d8839bae406d4ee3d  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/vendor/hiredis/read.c
-04d40bc0e419e639cf9b94e327643960  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/vendor/hiredis/libhiredis.a
+58d0035b6ca64050c45348cfab11ed21  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/vendor/hiredis/libhiredis.a
 f9730929a7d37a410f8124d414b2b71d  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/vendor/hiredis/hiredis.h
 3f16838033d96bf7c6cbe11998550b47  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/lib/hiredis.rb
 0316dca248d18e57946fb75b5a979a52  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/lib/hiredis/reader.rb
@@ -2605,7 +2605,7 @@ f80f32dc603c7cae44c4d0399956f965  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hir
 ad8dfd1c0bd873f49e1d528195735c79  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/ext/hiredis_ext/connection.c
 96bc27227ce641fa077d04d05c7b0e80  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/ext/hiredis_ext/connection.o
 2313b2379045c3be9a0fe3cd281d407b  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/ext/hiredis_ext/hiredis_ext.so
-e22830cbd6a641ebcd6b5f41a81df911  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/ext/hiredis_ext/Makefile
+067b13ee0f9b36ecf7aca5fffb81c43b  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/ext/hiredis_ext/Makefile
 7374486bd2e01a90e6bd2f0aa85007f3  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/ext/hiredis_ext/reader.o
 39e16be5904ac48d24b3e28c923f77f3  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/COPYING
 184f1ca2fa0197cc06d8116cda2d32f2  opt/flapjack/vendor/bundle/ruby/2.1.0/gems/hiredis-0.6.1/Rakefile
