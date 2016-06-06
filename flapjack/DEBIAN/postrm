@@ -3,6 +3,7 @@
 set -e
 
 if [ "$1" = "remove" ] ; then
+	gpasswd -d redis flapjack
 	userdel flapjack || true
 	update-rc.d flapjack remove >/dev/null
 	rm -f /etc/redis/redis.conf
