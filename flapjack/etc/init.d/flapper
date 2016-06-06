@@ -1,7 +1,17 @@
 #!/bin/bash
-#
-# flapper
-#
+
+### BEGIN INIT INFO
+# Provides:       flapper
+# Required-Start: $syslog $remote_fs redis-server
+# Required-Stop:  $syslog $remote_fs redis-server
+# Should-Start:   $local_fs
+# Should-Stop:    $local_fs
+# Default-Start:  2 3 4 5
+# Default-Stop:   0 1 6
+# Short-Description:  flapper - scalable monitoring notification system
+# Description:    flapper - scalable monitoring notification system
+### END INIT INFO
+
 
 PATH=/opt/flapjack/bin:$PATH
 DAEMON=/opt/flapjack/bin/flapjack
