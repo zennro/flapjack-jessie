@@ -3,6 +3,8 @@
 
 CWD=$(pwd)
 
+rm -rf flapjack/opt/flapjack/{vendor,.bundle,bin}
+
 cd flapjack/opt/flapjack || exit 
 bundle install --without development --path vendor/bundle --binstubs bin || exit
 

@@ -2,8 +2,8 @@
 
 ### BEGIN INIT INFO
 # Provides:       flapjack
-# Required-Start: $syslog $remote_fs redis-flapjack
-# Required-Stop:  $syslog $remote_fs redis-flapjack
+# Required-Start: $syslog $remote_fs redis-server
+# Required-Stop:  $syslog $remote_fs redis-server
 # Should-Start:   $local_fs
 # Should-Stop:    $local_fs
 # Default-Start:  2 3 4 5
